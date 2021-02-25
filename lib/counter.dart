@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hijri_gregorian/config/palette.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -28,7 +29,10 @@ class _CounterState extends State<Counter> {
   //Method to increment Zekr counter
   void _incrementCounter() {
     setState(() {
-      if (_totalCounter < _targetValue) _totalCounter++;
+      if (_totalCounter < _targetValue)
+        _totalCounter++;
+      else
+        createAlertDialog(context);
     });
   }
 
@@ -53,6 +57,37 @@ class _CounterState extends State<Counter> {
     }).catchError((error) {
       print(error);
     });
+  }
+
+  //Dialog
+  createAlertDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              'تقبل الله',
+              textDirection: TextDirection.rtl,
+              textAlign: TextAlign.center,
+            ),
+            content: Text(
+              'لقد وصلت للعدد المستهدف',
+              textDirection: TextDirection.rtl,
+            ),
+            actions: <Widget>[
+              MaterialButton(
+                child: Text(
+                  'إغلاق',
+                  textDirection: TextDirection.rtl,
+                  style: TextStyle(
+                    color: Palette.primaryColor,
+                  ),
+                ),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          );
+        });
   }
 
   @override
@@ -116,13 +151,17 @@ class _CounterState extends State<Counter> {
                         Column(
                           children: <Widget>[
                             Divider(
-                              color: const Color(0xffe1ad01),
+                              color: Palette.accentColor,
                             ),
                             RaisedButton(
-                              color: const Color(0xff8a9a5b).withOpacity(0.40),
+                              color: Palette.primaryColor.withOpacity(0.60),
                               onPressed: () => _showIntDialog(),
-                              child:
-                                  new Text("العدد المستهدف:  $_targetValue "),
+                              child: new Text(
+                                "العدد المستهدف:  $_targetValue ",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -207,9 +246,10 @@ class _CounterState extends State<Counter> {
                   child: Text(
                     '$_totalCounter',
                     style: TextStyle(
-                        fontSize: 72,
-                        fontWeight: FontWeight.bold,
-                        color: const Color(0xff8a9a5b)),
+                      fontSize: 72,
+                      fontWeight: FontWeight.bold,
+                      color: Palette.primaryColor,
+                    ),
                   ),
                 ),
               ),
@@ -228,7 +268,7 @@ class _CounterState extends State<Counter> {
               tooltip: 'reset',
               child: Icon(
                 Icons.settings_backup_restore,
-                color: const Color(0xff8a9a5b),
+                color: Palette.primaryColor,
               ),
               backgroundColor: Colors.white,
               heroTag: null,
@@ -241,8 +281,8 @@ class _CounterState extends State<Counter> {
               },
               tooltip: 'share',
               child: Icon(Icons.share),
-              backgroundColor: const Color(0xff8a9a5b),
-              foregroundColor: const Color(0xffe1ad01),
+              backgroundColor: Palette.primaryColor,
+              foregroundColor: Palette.accentColor,
               heroTag: null,
             ),
           ],
@@ -268,7 +308,7 @@ class _CounterState extends State<Counter> {
     final prefs = await SharedPreferences.getInstance();
     final intKey = 'my_int_key';
     final intValue = prefs.getInt(intKey) ?? 0;
-    _totalCounter = intValue;
+    //_totalCounter = intValue;
 
     //load Favourites string list
     final stringPrefs = await SharedPreferences.getInstance();

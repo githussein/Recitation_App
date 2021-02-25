@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hijri_gregorian/config/palette.dart';
 import 'package:hijri_gregorian/counter.dart';
 import 'package:hijri_gregorian/edit_Misbaha.dart';
 import 'DatabaseHelper.dart';
@@ -42,7 +43,7 @@ class _MisbahaState extends State<Misbaha> {
           IconButton(
             icon: Icon(
               Icons.settings,
-              color: const Color(0xffe1ad01),
+              color: Palette.accentColor,
             ),
             onPressed: () => Navigator.push(context,
                 MaterialPageRoute(builder: (context) => EditMisbaha())),

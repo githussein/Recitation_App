@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hijri_gregorian/config/palette.dart';
 import 'package:hijri_gregorian/edit_favorites.dart';
 import 'package:hijri_gregorian/settings.dart';
 import 'package:hijri_gregorian/main.dart';
@@ -44,7 +45,7 @@ class _FavoritesState extends State<Favorites> {
           IconButton(
             icon: Icon(
               Icons.settings,
-              color: const Color(0xffe1ad01),
+              color: Palette.accentColor,
             ),
             onPressed: () => Navigator.push(context,
                 MaterialPageRoute(builder: (context) => EditFavorites())),

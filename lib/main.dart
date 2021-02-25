@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hijri_gregorian/NotificationPlugin.dart';
 import 'package:hijri_gregorian/choose_azkar.dart';
+import 'package:hijri_gregorian/config/palette.dart';
 import 'package:hijri_gregorian/favorites.dart';
 import 'package:hijri_gregorian/hadith.dart';
 import 'package:hijri_gregorian/misbaha.dart';
@@ -17,12 +18,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'دعــاء',
+      title: 'أذكار وأدعية',
       theme: ThemeData(
-        primaryColor: Color(0xff8a9a5b),
+        primaryColor: Palette.primaryColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'دعــاء'),
+      home: MyHomePage(title: 'أذكار وأدعية'),
     );
   }
 }
@@ -120,26 +121,86 @@ class _MyHomePageState extends State<MyHomePage> {
       case 2:
         _gregorianMonth = 'فبراير';
         break;
+      case 3:
+        _gregorianMonth = 'مارس';
+        break;
+      case 4:
+        _gregorianMonth = 'أبريل';
+        break;
+      case 5:
+        _gregorianMonth = 'مايو';
+        break;
+      case 6:
+        _gregorianMonth = 'يونيو';
+        break;
+      case 7:
+        _gregorianMonth = 'يوليو';
+        break;
+      case 8:
+        _gregorianMonth = 'أغسطس';
+        break;
+      case 9:
+        _gregorianMonth = 'سبتمبر';
+        break;
+      case 10:
+        _gregorianMonth = 'اكتوبر';
+        break;
+      case 11:
+        _gregorianMonth = 'نوفمبر';
+        break;
+      case 12:
+        _gregorianMonth = 'ديسمبر';
+        break;
       default:
-        _gregorianMonth = 'فبراير';
+        _gregorianMonth = 'الشهر الغريغوري';
     }
 
     String _hijriMonth = "";
     switch (_hijriDate.hMonth) {
+      case 1:
+        _hijriMonth = 'محرم';
+        break;
+      case 2:
+        _hijriMonth = 'صفر';
+        break;
+      case 3:
+        _hijriMonth = 'ربيع الأول';
+        break;
+      case 4:
+        _hijriMonth = 'ربيع الآخر';
+        break;
+      case 5:
+        _hijriMonth = 'جمادى الأولى';
+        break;
+      case 6:
+        _hijriMonth = 'جمادى الآخرة';
+        break;
       case 7:
-        _hijriMonth = 'رجـب';
+        _hijriMonth = 'رجب';
         break;
       case 8:
         _hijriMonth = 'شعبـان';
         break;
+      case 9:
+        _hijriMonth = 'رمضان';
+        break;
+      case 10:
+        _hijriMonth = 'شوال';
+        break;
+      case 11:
+        _hijriMonth = 'ذو القعدة';
+        break;
+      case 12:
+        _hijriMonth = 'ذو الحجة';
+        break;
       default:
-        _hijriMonth = 'رجـب';
+        _hijriMonth = 'الشهر الهجري';
     }
 
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('دعــاء'),
+        title: Text('أذكار وأدعية'),
       ),
       body: Container(
         decoration: BoxDecoration(

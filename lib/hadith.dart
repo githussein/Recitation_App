@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hijri_gregorian/config/palette.dart';
 import 'package:share/share.dart';
 
 class Hadith extends StatefulWidget {
@@ -11,7 +12,6 @@ class _HadithState extends State<Hadith> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xff8a9a5b),
         title: Text("حديث اليوم"),
       ),
       body: Container(
@@ -67,8 +67,8 @@ class _HadithState extends State<Hadith> {
         },
         tooltip: 'share',
         child: Icon(Icons.share),
-        backgroundColor: const Color(0xff8a9a5b),
-        foregroundColor: const Color(0xffe1ad01),
+        backgroundColor: Palette.primaryColor,
+        foregroundColor: Palette.accentColor,
       ),
     );
   }

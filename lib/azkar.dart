@@ -5,6 +5,7 @@ import 'package:flutter/painting.dart';
 import 'dart:convert';
 
 import 'package:flutter/rendering.dart';
+import 'package:hijri_gregorian/config/palette.dart';
 import 'package:share/share.dart';
 
 class Azkar extends StatefulWidget {
@@ -152,7 +153,7 @@ class _AzkarState extends State<Azkar> {
                                       index['description'],
                                       style: TextStyle(
                                           fontSize: 14.0,
-                                          color: const Color(0xffe1ad01)),
+                                          color: Palette.accentColor),
                                       textDirection: TextDirection.rtl,
                                     ),
                                   ],
@@ -172,7 +173,7 @@ class _AzkarState extends State<Azkar> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: _current == index
-                                ? Color(0xffe1ad01)
+                                ? Palette.accentColor
                                 : Colors.grey,
                           ),
                         );
@@ -194,8 +195,8 @@ class _AzkarState extends State<Azkar> {
         },
         tooltip: 'share',
         child: Icon(Icons.share),
-        backgroundColor: const Color(0xff8a9a5b),
-        foregroundColor: const Color(0xffe1ad01),
+        backgroundColor: Palette.primaryColor,
+        foregroundColor: Palette.accentColor,
       ),
     );
   }

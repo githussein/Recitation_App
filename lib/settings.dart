@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hijri_gregorian/NotificationPlugin.dart';
+import 'package:hijri_gregorian/config/palette.dart';
 import 'package:hijri_gregorian/main.dart';
 
 import 'favorites.dart';
@@ -20,7 +21,7 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("مفضلاتي"),
+        title: Text("الإعدادات"),
       ),
       body: Container(
         padding: EdgeInsets.all(10.0),
@@ -43,8 +44,8 @@ class _SettingsState extends State<Settings> {
                         isDayNightReminder = value;
                       });
                     },
-                    activeTrackColor: const Color(0xffe1ad01),
-                    activeColor: const Color(0xff8a9a5b),
+                    activeTrackColor: Colors.grey,
+                    activeColor: Palette.primaryColor,
                   ),
                   Text('أذكار اليوم والليلة'),
                 ],
@@ -55,7 +56,7 @@ class _SettingsState extends State<Settings> {
                   Text(
                     'إظهار إشعار لينبهك بأذكار اليوم والليلة',
                     style: TextStyle(
-                      color: const Color(0xffe1ad01).withOpacity(0.70),
+                      color: Palette.accentColor.withOpacity(0.70),
                       fontSize: 14.0,
                     ),
                   ),
@@ -108,8 +109,8 @@ class _SettingsState extends State<Settings> {
                             13, 58, 'أذكار الصباح والمساء');
                       }
                     },
-                    activeTrackColor: const Color(0xffe1ad01),
-                    activeColor: const Color(0xff8a9a5b),
+                    activeTrackColor: Colors.grey,
+                    activeColor: Palette.primaryColor,
                   ),
                   Text('أذكار النوم'),
                 ],
@@ -120,7 +121,7 @@ class _SettingsState extends State<Settings> {
                   Text(
                     'إظهار إشعار لينبهك بأذكار النوم',
                     style: TextStyle(
-                      color: const Color(0xffe1ad01).withOpacity(0.70),
+                      color: Palette.accentColor.withOpacity(0.70),
                       fontSize: 14.0,
                     ),
                   ),
