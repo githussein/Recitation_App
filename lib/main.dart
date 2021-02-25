@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:hijri_gregorian/NotificationPlugin.dart';
 import 'package:hijri_gregorian/choose_azkar.dart';
 import 'package:hijri_gregorian/config/palette.dart';
@@ -9,6 +10,7 @@ import 'package:hijri_gregorian/settings.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:hijri/hijri_calendar.dart';
+import 'package:share/share.dart';
 
 void main() {
   runApp(MyApp());
@@ -108,13 +110,13 @@ class _MyHomePageState extends State<MyHomePage> {
     final birthday = DateTime(1990, 10, 12);
 
     final _nextGregorian = DateTime.parse('2021-04-13 00:00:00.000');
-    final _currentGregorian = DateTime.now();
-    final _difference = _nextGregorian.difference(_currentGregorian).inDays;
+    final _gregorianDate = DateTime.now();
+    final _difference = _nextGregorian.difference(_gregorianDate).inDays;
 
     var _hijriDate = new HijriCalendar.now();
 
     String _gregorianMonth = "";
-    switch (_currentGregorian.month) {
+    switch (_gregorianDate.month) {
       case 1:
         _gregorianMonth = 'يناير';
         break;
@@ -152,7 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
         _gregorianMonth = 'ديسمبر';
         break;
       default:
-        _gregorianMonth = 'الشهر الغريغوري';
+        _gregorianMonth = 'الشهر الميلادي';
     }
 
     String _hijriMonth = "";
@@ -197,6 +199,38 @@ class _MyHomePageState extends State<MyHomePage> {
         _hijriMonth = 'الشهر الهجري';
     }
 
+    //Day name in Arabic
+    String _dayName = "";
+    switch (_gregorianDate.weekday) {
+      case 1:
+        _dayName = 'الإثنين';
+        break;
+      case 2:
+        _dayName = 'الثلاثاء';
+        break;
+      case 3:
+        _dayName = 'االأربعأء';
+        break;
+      case 4:
+        _dayName = 'الخميس';
+        break;
+      case 5:
+        _dayName = 'الجمعة';
+        break;
+      case 6:
+        _dayName = 'السبت';
+        break;
+      case 7:
+        _dayName = 'الأحـد';
+        break;
+      default:
+        _dayName = 'اليوم';
+    }
+
+    //Share message
+    String msg =
+        'فاذكروني أذكركم - حمل تطبيق أذكار وأدعية \n\nhttp://onelink.to/4m9xg8';
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -210,115 +244,231 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            // RaisedButton(
-            //   child: Text('NOTIFICATION'),
-            //   onPressed: () async {
-            //     // await notificationPlugin.scheduleNotification();
-            //     await notificationPlugin.showNotification();
-            //   },
-            // ),
-            Text(
-              '${_hijriDate.hDay}' + ' $_hijriMonth ' + '${_hijriDate.hYear}',
-              textDirection: TextDirection.rtl,
-            ),
-            Text(
-              ' ${_currentGregorian.day} ' +
-                  ' $_gregorianMonth ' +
-                  '${_currentGregorian.year}',
-              textDirection: TextDirection.rtl,
-            ),
-            //Text('${gDate.hijriToGregorian(1442, 9, 1)}'),
-            Text(
-              ' باقي على رمضان $_difference يوما',
-              style: TextStyle(
-                fontSize: 24,
-                fontFamily: 'Gabriola',
-              ),
-            ),
             Container(
-              height: 150.0,
-              margin: EdgeInsets.all(10.0),
               padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
               decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.60),
-                  borderRadius: BorderRadius.all(Radius.circular(15))),
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Misbaha()),
-                  );
-                },
-                child: Column(
+                color: Colors.white.withOpacity(0.60),
+                // borderRadius: BorderRadius.all(
+                //   Radius.circular(15),
+                // ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'تـاريـخ اليـوم',
+                    textDirection: TextDirection.rtl,
+                    style: TextStyle(
+                      fontFamily: 'Cairo-Regular',
+                    ),
+                  ),
+                  Text(
+                    '$_dayName' +
+                        '${_hijriDate.hDay}' +
+                        ' $_hijriMonth ' +
+                        '${_hijriDate.hYear}' +
+                        ' - ' +
+                        ' ${_gregorianDate.day} ' +
+                        ' $_gregorianMonth ' +
+                        '${_gregorianDate.year}',
+                    textDirection: TextDirection.rtl,
+                    style: TextStyle(
+                      color: Palette.primaryColor,
+                    ),
+                  ),
+                  // Text(
+                  //   ' باقي على رمضان $_difference يوما',
+                  //   style: TextStyle(
+                  //     fontSize: 24,
+                  //     fontFamily: 'Gabriola',
+                  //   ),
+                  // ),
+                ],
+              ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.all(10.0),
+                  padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+                  decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.60),
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Misbaha()),
+                      );
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        ImageIcon(
+                          AssetImage('images/icon-tasbih.png'),
+                          size: 50.0,
+                        ),
+                        Text(
+                          '          سبحة          ',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.all(10.0),
+                  padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+                  decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.60),
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ChooseAzkar()),
+                      );
+                    },
+                    child: Column(
+                      children: <Widget>[
+                        ImageIcon(
+                          AssetImage('images/icon-dua.png'),
+                          size: 50.0,
+                        ),
+                        Text(
+                          '           أذكار           ',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.all(10.0),
+                  padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+                  decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.60),
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Hadith()),
+                      );
+                    },
+                    child: Column(
+                      children: <Widget>[
+                        ImageIcon(
+                          AssetImage('images/icon-mhmd.png'),
+                          size: 50.0,
+                        ),
+                        Text(
+                          '          حديث          ',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    ImageIcon(
-                      AssetImage('images/icon-tasbih.png'),
-                      size: 80.0,
-                    ),
-                    Text('سبحة')
-                  ],
+                  children: <Widget>[],
                 ),
-              ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[],
+                ),
+              ],
             ),
             Container(
-              margin: EdgeInsets.all(10.0),
-              padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
-              decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.60),
-                  borderRadius: BorderRadius.all(Radius.circular(15))),
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ChooseAzkar()),
-                  );
-                },
-                child: Column(
-                  children: <Widget>[
-                    ImageIcon(
-                      AssetImage('images/icon-dua.png'),
-                      size: 80.0,
+              padding: EdgeInsets.all(10.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'ساهم بنشر التطبيق',
+                    textDirection: TextDirection.rtl,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
                     ),
-                    Text('أذكار')
-                  ],
-                ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Material(
+                        // needed
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () {
+                            Share.share(msg);
+                          }, // needed
+                          child: Image.asset(
+                            "images/share.png",
+                            width: 35,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 20.0),
+                      Material(
+                        // needed
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () {
+                            FlutterShareMe().shareToFacebook(
+                                msg: msg, url: 'http://onelink.to/4m9xg8');
+                          }, // needed
+                          child: Image.asset(
+                            "images/facebook.png",
+                            width: 35,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 20.0),
+                      Material(
+                        // needed
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () {
+                            FlutterShareMe().shareToTwitter(msg: msg);
+                          }, // needed
+                          child: Image.asset(
+                            "images/twitter.png",
+                            width: 35,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 20.0),
+                      Material(
+                        // needed
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () {
+                            FlutterShareMe().shareToWhatsApp(msg: msg);
+                          }, // needed
+                          child: Image.asset(
+                            "images/whatsapp.png",
+                            width: 40,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
               ),
-            ),
-            Container(
-              margin: EdgeInsets.all(10.0),
-              padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
-              decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.60),
-                  borderRadius: BorderRadius.all(Radius.circular(15))),
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Hadith()),
-                  );
-                },
-                child: Column(
-                  children: <Widget>[
-                    ImageIcon(
-                      AssetImage('images/icon-mhmd.png'),
-                      size: 80.0,
-                    ),
-                    Text('أحاديث')
-                  ],
-                ),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[],
             ),
           ],
         ),

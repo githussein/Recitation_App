@@ -41,6 +41,8 @@ dependencies:
   hijri: ^2.0.3
   # Share plugin
   share: ^0.6.5+4
+  # Share me plugin for WhatsApp, Twitter, Facebook
+  flutter_share_me: ^0.9.2
 
 
   # The following adds the Cupertino Icons font to your application.

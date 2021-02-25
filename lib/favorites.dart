@@ -5,6 +5,7 @@ import 'package:hijri_gregorian/settings.dart';
 import 'package:hijri_gregorian/main.dart';
 import 'DatabaseHelper.dart';
 import 'Zekr.dart';
+import 'package:hijri_gregorian/counter.dart';
 
 class Favorites extends StatefulWidget {
   @override
@@ -67,11 +68,22 @@ class _FavoritesState extends State<Favorites> {
               decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.7),
                   borderRadius: BorderRadius.all(Radius.circular(15))),
-              child: ListTile(
-                title: Text(
-                  azkarList[index].title,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18.0),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Counter(
+                              azkarList[index].title,
+                            )),
+                  );
+                },
+                child: ListTile(
+                  title: Text(
+                    azkarList[index].title,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18.0),
+                  ),
                 ),
               ),
             );
