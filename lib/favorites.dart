@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hijri_gregorian/edit_favorites.dart';
+import 'package:hijri_gregorian/settings.dart';
+import 'package:hijri_gregorian/main.dart';
 import 'DatabaseHelper.dart';
 import 'Zekr.dart';
 
@@ -12,6 +14,9 @@ class _FavoritesState extends State<Favorites> {
   //a ist to read all azkar in the database
   List<Zekr> azkarList = new List();
   static final favoritesTable = 'favorites';
+
+  //Default selected tab from the bottom navigation bar
+  int _selectedIndex = 1;
 
   @override
   void initState() {
@@ -72,6 +77,44 @@ class _FavoritesState extends State<Favorites> {
           }),
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: onTabTapped,
+        // onTap: (index) => setState(() => _currentIndex = index),
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.transparent,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        elevation: 0.0,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            title: Text(''),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite_border),
+            title: Text(''),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text(''),
+          ),
+        ],
+      ),
     );
+  }
+
+  void onTabTapped(int index) {
+    //TEST
+    if (index == 2) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => MyHomePage()));
+    } else if (index == 0) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => Settings()));
+    }
+    // setState(() {
+    //   _selectedIndex = index;
+    // });
   }
 }

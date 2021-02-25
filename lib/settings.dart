@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hijri_gregorian/NotificationPlugin.dart';
+import 'package:hijri_gregorian/main.dart';
+
+import 'favorites.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -9,6 +12,9 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   bool isDayNightReminder = true;
   bool isSleepReminder = true;
+
+  //Default selected tab from the bottom navigation bar
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -139,6 +145,44 @@ class _SettingsState extends State<Settings> {
           ),
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: onTabTapped,
+        // onTap: (index) => setState(() => _currentIndex = index),
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.transparent,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        elevation: 0.0,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            title: Text(''),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite_border),
+            title: Text(''),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text(''),
+          ),
+        ],
+      ),
     );
+  }
+
+  void onTabTapped(int index) {
+    //TEST
+    if (index == 1) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => Favorites()));
+    } else if (index == 2) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => MyHomePage()));
+    }
+    // setState(() {
+    //   _selectedIndex = index;
+    // });
   }
 }
