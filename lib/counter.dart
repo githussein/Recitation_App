@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:hijri_gregorian/config/palette.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -256,8 +257,9 @@ class _CounterState extends State<Counter> {
             ],
           ),
         ),
-        floatingActionButton: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
+        floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             FloatingActionButton(
               onPressed: () {
@@ -273,17 +275,37 @@ class _CounterState extends State<Counter> {
               backgroundColor: Colors.white,
               heroTag: null,
             ),
-            SizedBox(height: 10),
-            FloatingActionButton(
-              onPressed: () {
-                Share.share(
-                    'فاذكروني أذكركم - \n${widget.zekrText}\nhttp://onelink.to/4m9xg8');
-              },
-              tooltip: 'share',
-              child: Icon(Icons.share),
-              backgroundColor: Palette.primaryColor,
-              foregroundColor: Palette.accentColor,
-              heroTag: null,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      FlutterShareMe().shareToWhatsApp(
+                          msg:
+                              'فاذكروني أذكركم - \n${widget.zekrText}\nhttp://onelink.to/4m9xg8');
+                    }, // needed
+                    child: Image.asset(
+                      "images/whatsapp.png",
+                      width: 50,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
+                FloatingActionButton(
+                  onPressed: () {
+                    Share.share(
+                        'فاذكروني أذكركم - \n${widget.zekrText}\nhttp://onelink.to/4m9xg8');
+                  },
+                  tooltip: 'share',
+                  child: Icon(Icons.share),
+                  backgroundColor: Palette.primaryColor,
+                  foregroundColor: Palette.accentColor,
+                  heroTag: null,
+                ),
+              ],
             ),
           ],
         ),

@@ -5,6 +5,7 @@ import 'package:flutter/painting.dart';
 import 'dart:convert';
 
 import 'package:flutter/rendering.dart';
+import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:hijri_gregorian/config/palette.dart';
 import 'package:share/share.dart';
 
@@ -185,18 +186,41 @@ class _AzkarState extends State<Azkar> {
         ),
       ),
       //Share screen content
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          //Share zekr title and text and app link
-          setState(() {
-            Share.share(
-                '$titleToShare - \n$textToShare\nhttp://onelink.to/4m9xg8');
-          });
-        },
-        tooltip: 'share',
-        child: Icon(Icons.share),
-        backgroundColor: Palette.primaryColor,
-        foregroundColor: Palette.accentColor,
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                //TODO edit textTpShare
+                FlutterShareMe().shareToWhatsApp(
+                    msg:
+                        'فاذكروني أذكركم - \n$textToShare\nhttp://onelink.to/4m9xg8');
+              }, // needed
+              child: Image.asset(
+                "images/whatsapp.png",
+                width: 50,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+          FloatingActionButton(
+            onPressed: () {
+              //TODO edit textTpShare
+              // Share zekr title and text and app link
+              setState(() {
+                Share.share(
+                    '$titleToShare - \n$textToShare\nhttp://onelink.to/4m9xg8');
+              });
+            },
+            tooltip: 'share',
+            child: Icon(Icons.share),
+            backgroundColor: Palette.primaryColor,
+            foregroundColor: Palette.accentColor,
+          ),
+        ],
       ),
     );
   }

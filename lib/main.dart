@@ -420,22 +420,22 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                       SizedBox(width: 20.0),
-                      Material(
-                        // needed
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {
-                            FlutterShareMe().shareToFacebook(
-                                msg: msg, url: 'http://onelink.to/4m9xg8');
-                          }, // needed
-                          child: Image.asset(
-                            "images/facebook.png",
-                            width: 35,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 20.0),
+                      // Material(
+                      //   // needed
+                      //   color: Colors.transparent,
+                      //   child: InkWell(
+                      //     onTap: () {
+                      //       FlutterShareMe().shareToFacebook(
+                      //           msg: msg, url: 'http://onelink.to/4m9xg8');
+                      //     }, // needed
+                      //     child: Image.asset(
+                      //       "images/facebook.png",
+                      //       width: 35,
+                      //       fit: BoxFit.cover,
+                      //     ),
+                      //   ),
+                      // ),
+                      // SizedBox(width: 20.0),
                       Material(
                         // needed
                         color: Colors.transparent,
