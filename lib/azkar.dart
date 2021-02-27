@@ -19,6 +19,9 @@ class Azkar extends StatefulWidget {
 
 class _AzkarState extends State<Azkar> {
   String jsonFile;
+  int _current = 0;
+  String _titleToShare = "";
+  String textToShare = "";
 
   @override
   void initState() {
@@ -27,42 +30,56 @@ class _AzkarState extends State<Azkar> {
     switch (widget.selectedZekr) {
       case 0:
         jsonFile = "azkar_sabah";
+        _titleToShare = 'أذكار الصباح';
         break;
       case 1:
         jsonFile = "azkar_masaa";
+        _titleToShare = 'أذكار المساء';
         break;
       case 2:
         jsonFile = "azkar_wudu";
+        _titleToShare = 'أذكار الوضوء';
         break;
       case 3:
         jsonFile = "azkar_azan";
+        _titleToShare = 'أذكار الأذان';
         break;
       case 4:
         jsonFile = "azkar_salah";
+        _titleToShare = 'أذكار الصلاة';
         break;
       case 5:
         jsonFile = "azkar_salam";
+        _titleToShare = 'أذكار بعد السلام من الصلاة';
         break;
       case 6:
+        _titleToShare = 'أذكار الصباح';
         jsonFile = "azkar_nawm";
+        _titleToShare = 'أذكار النوم';
         break;
       case 7:
         jsonFile = "azkar_estikaz";
+        _titleToShare = 'أذكار الاستيقاظ من النوم';
         break;
       case 8:
         jsonFile = "azkar_taam";
+        _titleToShare = 'أذكار الطعام';
         break;
       case 9:
         jsonFile = "azkar_masjid";
+        _titleToShare = 'أذكار المسجد';
         break;
       case 10:
         jsonFile = "azkar_safar";
+        _titleToShare = 'أذكار السفر';
         break;
       case 11:
         jsonFile = "azkar_khalaa";
+        _titleToShare = 'أذكار الخلاء';
         break;
       default:
         jsonFile = "azkar_salah";
+        _titleToShare = 'ولذكر الله أكبر والله يعلم ما تصنعون';
         break;
     }
   }
@@ -76,10 +93,6 @@ class _AzkarState extends State<Azkar> {
     }
     return result;
   }
-
-  int _current = 0;
-  String titleToShare = "";
-  String textToShare = "";
 
   @override
   Widget build(BuildContext context) {
@@ -121,44 +134,55 @@ class _AzkarState extends State<Azkar> {
                         },
                       ),
                       items: myList.map((index) {
-                        titleToShare = index['category'];
+                        // titleToShare = index['category'];
                         textToShare = index['zekr'];
                         return Builder(
                           builder: (BuildContext context) {
-                            return Container(
-                                width: MediaQuery.of(context).size.width,
-                                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                                child: Column(
-                                  children: <Widget>[
-                                    Text(
-                                      index['category'],
-                                      style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontFamily: 'Cairo-Regular',
-                                          fontWeight: FontWeight.bold,
-                                          color: Color(0xFF1C3858)),
-                                      textDirection: TextDirection.rtl,
-                                    ),
-                                    SizedBox(height: 10.0),
-                                    Text(
-                                      index['zekr'],
-                                      style: TextStyle(
-                                          //@TODO is this the final font?
-                                          fontSize: 14.0,
-                                          fontFamily: 'Gabriola',
-                                          fontWeight: FontWeight.bold),
-                                      textDirection: TextDirection.rtl,
-                                    ),
-                                    SizedBox(height: 10),
-                                    Text(
-                                      index['description'],
-                                      style: TextStyle(
-                                          fontSize: 14.0,
-                                          color: Palette.accentColor),
-                                      textDirection: TextDirection.rtl,
-                                    ),
-                                  ],
-                                ));
+                            return ListView(
+                              children: [
+                                Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 5.0),
+                                    // margin: EdgeInsets.all(10.0),
+                                    padding: EdgeInsets.all(10.0),
+                                    decoration: BoxDecoration(
+                                        color: Colors.white.withOpacity(0.60),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(15))),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Text(
+                                          index['category'],
+                                          style: TextStyle(
+                                              fontSize: 18.0,
+                                              fontFamily: 'Cairo-Regular',
+                                              fontWeight: FontWeight.bold,
+                                              color: Color(0xFF1C3858)),
+                                          textDirection: TextDirection.rtl,
+                                        ),
+                                        SizedBox(height: 10.0),
+                                        Text(
+                                          index['zekr'],
+                                          style: TextStyle(
+                                              //@TODO is this the final font?
+                                              fontSize: 16.0,
+                                              fontFamily: 'Gabriola',
+                                              fontWeight: FontWeight.bold),
+                                          textDirection: TextDirection.rtl,
+                                        ),
+                                        SizedBox(height: 10),
+                                        Text(
+                                          index['description'],
+                                          style: TextStyle(
+                                              fontSize: 14.0,
+                                              color: Palette.accentColor),
+                                          textDirection: TextDirection.rtl,
+                                        ),
+                                      ],
+                                    )),
+                              ],
+                            );
                           },
                         );
                       }).toList(),
@@ -193,10 +217,9 @@ class _AzkarState extends State<Azkar> {
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
-                //TODO edit textTpShare
                 FlutterShareMe().shareToWhatsApp(
                     msg:
-                        'فاذكروني أذكركم - \n$textToShare\nhttp://onelink.to/4m9xg8');
+                        'فاذكروني أذكركم - \n$_titleToShare\nhttp://onelink.to/4m9xg8');
               }, // needed
               child: Image.asset(
                 "images/whatsapp.png",
@@ -208,11 +231,10 @@ class _AzkarState extends State<Azkar> {
           SizedBox(height: 10),
           FloatingActionButton(
             onPressed: () {
-              //TODO edit textTpShare
-              // Share zekr title and text and app link
+              // Share zekr title and app link
               setState(() {
                 Share.share(
-                    '$titleToShare - \n$textToShare\nhttp://onelink.to/4m9xg8');
+                    'فاذكروني أذكركم - \n$_titleToShare\nhttp://onelink.to/4m9xg8');
               });
             },
             tooltip: 'share',
