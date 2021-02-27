@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
+import 'package:hijri_gregorian/Events.dart';
 import 'package:hijri_gregorian/NotificationPlugin.dart';
 import 'package:hijri_gregorian/choose_azkar.dart';
 import 'package:hijri_gregorian/config/palette.dart';
@@ -246,47 +247,66 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Container(
-              padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.60),
-                // borderRadius: BorderRadius.all(
-                //   Radius.circular(15),
-                // ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'تـاريـخ اليـوم',
-                    textDirection: TextDirection.rtl,
-                    style: TextStyle(
-                      fontFamily: 'Cairo-Regular',
+            Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.80),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'تـاريـخ اليـوم',
+                        textDirection: TextDirection.rtl,
+                        style: TextStyle(
+                          fontFamily: 'Cairo-Regular',
+                        ),
+                      ),
+                      Text(
+                        '$_dayName' +
+                            '${_hijriDate.hDay}' +
+                            ' $_hijriMonth ' +
+                            '${_hijriDate.hYear}' +
+                            ' - ' +
+                            ' ${_gregorianDate.day} ' +
+                            ' $_gregorianMonth ' +
+                            '${_gregorianDate.year}',
+                        textDirection: TextDirection.rtl,
+                        style: TextStyle(
+                          color: Palette.accentColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: 10),
+                Material(
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Events()));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(10, 5.0, 10.0, 5.0),
+                      decoration: BoxDecoration(
+                          color: Palette.accentColor.withOpacity(0.40)),
+                      child: Text(
+                        ' باقي على رمضان $_difference يوما',
+                        style: TextStyle(
+                          color: Palette.primaryColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Cairo-Regular',
+                        ),
+                        textAlign: TextAlign.center,
+                        textDirection: TextDirection.rtl,
+                      ),
                     ),
                   ),
-                  Text(
-                    '$_dayName' +
-                        '${_hijriDate.hDay}' +
-                        ' $_hijriMonth ' +
-                        '${_hijriDate.hYear}' +
-                        ' - ' +
-                        ' ${_gregorianDate.day} ' +
-                        ' $_gregorianMonth ' +
-                        '${_gregorianDate.year}',
-                    textDirection: TextDirection.rtl,
-                    style: TextStyle(
-                      color: Palette.primaryColor,
-                    ),
-                  ),
-                  // Text(
-                  //   ' باقي على رمضان $_difference يوما',
-                  //   style: TextStyle(
-                  //     fontSize: 24,
-                  //     fontFamily: 'Gabriola',
-                  //   ),
-                  // ),
-                ],
-              ),
+                ),
+              ],
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -509,9 +529,6 @@ class _MyHomePageState extends State<MyHomePage> {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => Settings()));
     }
-    // setState(() {
-    //   _selectedIndex = index;
-    // });
   }
 
   Future<void> initOneSignal() async {
