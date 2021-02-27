@@ -227,8 +227,8 @@ class _MyHomePageState extends State<MyHomePage> {
         _dayName = 'اليوم';
     }
 
-    //Share message
-    String msg =
+    //content to share to other apps
+    String _textToShare =
         'فاذكروني أذكركم - حمل تطبيق أذكار وأدعية \n\nhttp://onelink.to/4m9xg8';
 
     return Scaffold(
@@ -410,7 +410,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         color: Colors.transparent,
                         child: InkWell(
                           onTap: () {
-                            Share.share(msg);
+                            Share.share(_textToShare);
                           }, // needed
                           child: Image.asset(
                             "images/share.png",
@@ -441,7 +441,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         color: Colors.transparent,
                         child: InkWell(
                           onTap: () {
-                            FlutterShareMe().shareToTwitter(msg: msg);
+                            FlutterShareMe().shareToTwitter(msg: _textToShare);
                           }, // needed
                           child: Image.asset(
                             "images/twitter.png",
@@ -456,7 +456,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         color: Colors.transparent,
                         child: InkWell(
                           onTap: () {
-                            FlutterShareMe().shareToWhatsApp(msg: msg);
+                            FlutterShareMe().shareToWhatsApp(msg: _textToShare);
                           }, // needed
                           child: Image.asset(
                             "images/whatsapp.png",

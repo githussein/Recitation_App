@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:hijri_gregorian/NotificationPlugin.dart';
 import 'package:hijri_gregorian/config/palette.dart';
 import 'package:hijri_gregorian/main.dart';
+import 'package:share/share.dart';
 
 import 'favorites.dart';
 
@@ -16,6 +18,10 @@ class _SettingsState extends State<Settings> {
 
   //Default selected tab from the bottom navigation bar
   int _selectedIndex = 0;
+
+  //content to share to other apps
+  String _textToShare =
+      'فاذكروني أذكركم - حمل تطبيق أذكار وأدعية \n\nhttp://onelink.to/4m9xg8';
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +68,7 @@ class _SettingsState extends State<Settings> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: 10.0,
-              ),
+              SizedBox(height: 10.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
@@ -92,9 +96,7 @@ class _SettingsState extends State<Settings> {
                   Text('04:00 م'),
                 ],
               ),
-              SizedBox(
-                height: 10.0,
-              ),
+              SizedBox(height: 10.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -127,9 +129,7 @@ class _SettingsState extends State<Settings> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: 10.0,
-              ),
+              SizedBox(height: 10.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
@@ -140,6 +140,108 @@ class _SettingsState extends State<Settings> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Text('11:00 م'),
+                ],
+              ),
+              SizedBox(height: 10.0),
+              Container(
+                padding: EdgeInsets.all(10.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'ساهم بنشر التطبيق',
+                      textDirection: TextDirection.rtl,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Material(
+                          // needed
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () {
+                              Share.share(_textToShare);
+                            }, // needed
+                            child: Image.asset(
+                              "images/share.png",
+                              width: 35,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 20.0),
+                        // Material(
+                        //   // needed
+                        //   color: Colors.transparent,
+                        //   child: InkWell(
+                        //     onTap: () {
+                        //       FlutterShareMe().shareToFacebook(
+                        //           msg: msg, url: 'http://onelink.to/4m9xg8');
+                        //     }, // needed
+                        //     child: Image.asset(
+                        //       "images/facebook.png",
+                        //       width: 35,
+                        //       fit: BoxFit.cover,
+                        //     ),
+                        //   ),
+                        // ),
+                        // SizedBox(width: 20.0),
+                        Material(
+                          // needed
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () {
+                              FlutterShareMe()
+                                  .shareToTwitter(msg: _textToShare);
+                            }, // needed
+                            child: Image.asset(
+                              "images/twitter.png",
+                              width: 35,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 20.0),
+                        Material(
+                          // needed
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () {
+                              FlutterShareMe()
+                                  .shareToWhatsApp(msg: _textToShare);
+                            }, // needed
+                            child: Image.asset(
+                              "images/whatsapp.png",
+                              width: 40,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(height: 30.0),
+              Column(
+                children: [
+                  Text(
+                    'للتـواصـل',
+                    textDirection: TextDirection.rtl,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    'hijricalendars.com@gmail.com',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ],
               ),
             ],
