@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:hijri_gregorian/Events.dart';
 import 'package:hijri_gregorian/NotificationPlugin.dart';
+import 'package:hijri_gregorian/Roqya.dart';
 import 'package:hijri_gregorian/choose_azkar.dart';
 import 'package:hijri_gregorian/config/palette.dart';
 import 'package:hijri_gregorian/favorites.dart';
@@ -308,105 +309,172 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
-            Column(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.all(10.0),
-                  padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
-                  decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.60),
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Misbaha()),
-                      );
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        ImageIcon(
-                          AssetImage('images/icon-tasbih.png'),
-                          size: 50.0,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.all(10.0),
+                      padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+                      decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.60),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Hadith()),
+                          );
+                        },
+                        child: Column(
+                          children: <Widget>[
+                            ImageIcon(
+                              AssetImage('images/icon-quran.png'),
+                              color: Palette.primaryColor,
+                              size: 50.0,
+                            ),
+                            Text(
+                              '     آية قرآنية     ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
                         ),
-                        Text(
-                          '          سبحة          ',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.all(10.0),
-                  padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
-                  decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.60),
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ChooseAzkar()),
-                      );
-                    },
-                    child: Column(
-                      children: <Widget>[
-                        ImageIcon(
-                          AssetImage('images/icon-dua.png'),
-                          size: 50.0,
+                    Container(
+                      margin: EdgeInsets.all(10.0),
+                      padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+                      decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.60),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Hadith()),
+                          );
+                        },
+                        child: Column(
+                          children: <Widget>[
+                            ImageIcon(
+                              AssetImage('images/icon-mhmd.png'),
+                              color: Palette.primaryColor,
+                              size: 50.0,
+                            ),
+                            Text(
+                              '         حديث         ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
                         ),
-                        Text(
-                          '           أذكار           ',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-                Container(
-                  margin: EdgeInsets.all(10.0),
-                  padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
-                  decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.60),
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Hadith()),
-                      );
-                    },
-                    child: Column(
-                      children: <Widget>[
-                        ImageIcon(
-                          AssetImage('images/icon-mhmd.png'),
-                          size: 50.0,
-                        ),
-                        Text(
-                          '          حديث          ',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                Row(
+                Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[],
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.all(10.0),
+                      padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+                      decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.60),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Misbaha()),
+                          );
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            ImageIcon(
+                              AssetImage('images/icon-tasbih.png'),
+                              color: Palette.primaryColor,
+                              size: 50.0,
+                            ),
+                            Text(
+                              '       تسبيح       ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(10.0),
+                      padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+                      decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.60),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ChooseAzkar()),
+                          );
+                        },
+                        child: Column(
+                          children: <Widget>[
+                            ImageIcon(
+                              AssetImage('images/icon-dua.png'),
+                              color: Palette.primaryColor,
+                              size: 50.0,
+                            ),
+                            Text(
+                              '        أذكار        ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(10.0),
+                      padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+                      decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.60),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Roqya()),
+                          );
+                        },
+                        child: Column(
+                          children: <Widget>[
+                            ImageIcon(
+                              AssetImage('images/icon-roqya.png'),
+                              color: Palette.primaryColor,
+                              size: 50.0,
+                            ),
+                            Text(
+                              '       الرقية       ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
