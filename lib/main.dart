@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
+import 'package:hijri_gregorian/Ayah.dart';
 import 'package:hijri_gregorian/Events.dart';
 import 'package:hijri_gregorian/NotificationPlugin.dart';
 import 'package:hijri_gregorian/Roqya.dart';
@@ -326,7 +327,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => Hadith()),
+                            MaterialPageRoute(builder: (context) => Ayah()),
                           );
                         },
                         child: Column(
