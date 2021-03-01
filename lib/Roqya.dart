@@ -152,8 +152,11 @@ class _RoqyaState extends State<Roqya> {
             child: InkWell(
               onTap: () {
                 FlutterShareMe().shareToWhatsApp(
-                    msg:
-                        'فاذكروني أذكركم - \n$_titleToShare\nhttps://kla.me/2M1hz');
+                    msg: 'الرقية الشرعية من القرآن والسنة النبوية' +
+                        '\n' +
+                        'حمل تطبيق أدعية وأذكار' +
+                        '\n' +
+                        'https://kla.me/2M1hz');
               }, // needed
               child: Image.asset(
                 "images/whatsapp.png",
@@ -167,8 +170,11 @@ class _RoqyaState extends State<Roqya> {
             onPressed: () {
               // Share zekr title and app link
               setState(() {
-                Share.share(
-                    'فاذكروني أذكركم - \n$_titleToShare\nhttps://kla.me/2M1hz');
+                Share.share('الرقية الشرعية من القرآن والسنة النبوية' +
+                    '\n' +
+                    'حمل تطبيق أدعية وأذكار' +
+                    '\n' +
+                    'https://kla.me/2M1hz');
               });
             },
             tooltip: 'share',

@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:hijri_gregorian/config/palette.dart';
 import 'package:share/share.dart';
 
@@ -57,18 +59,47 @@ class _HadithState extends State<Hadith> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          //Share zekr title and text and app link
-          setState(() {
-            Share.share(
-                'قال رسول الله صلى الله عليه وسلم:\nإنما الأعمال بالنيّات، وإنما لكل امريء ما نوى، فمن كانت هجرته إلى الله ورسوله، فهجرته إلى الله ورسوله، ومن كانت هجرته لدنيا يصيبها، أو امرأة ينكحها، فهجرته إلى ما هاجر إليه\nhttps://kla.me/2M1hz');
-          });
-        },
-        tooltip: 'share',
-        child: Icon(Icons.share),
-        backgroundColor: Palette.primaryColor,
-        foregroundColor: Palette.accentColor,
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                FlutterShareMe().shareToWhatsApp(
+                    msg:
+                        'إنما الأعمال بالنيّات، وإنما لكل امريء ما نوى، فمن كانت هجرته إلى الله ورسوله، فهجرته إلى الله ورسوله، ومن كانت هجرته لدنيا يصيبها، أو امرأة ينكحها، فهجرته إلى ما هاجر إليه' +
+                            '\n' +
+                            'حمل تطبيق أدعية وأذكار' +
+                            '\n' +
+                            'https://kla.me/2M1hz');
+              }, // needed
+              child: Image.asset(
+                "images/whatsapp.png",
+                width: 50,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+          FloatingActionButton(
+            onPressed: () {
+              //Share zekr title and text and app link
+              setState(() {
+                Share.share(
+                    'إنما الأعمال بالنيّات، وإنما لكل امريء ما نوى، فمن كانت هجرته إلى الله ورسوله، فهجرته إلى الله ورسوله، ومن كانت هجرته لدنيا يصيبها، أو امرأة ينكحها، فهجرته إلى ما هاجر إليه' +
+                        '\n' +
+                        'حمل تطبيق أدعية وأذكار' +
+                        '\n' +
+                        'https://kla.me/2M1hz');
+              });
+            },
+            tooltip: 'share',
+            child: Icon(Icons.share),
+            backgroundColor: Palette.primaryColor,
+            foregroundColor: Palette.accentColor,
+          ),
+        ],
       ),
     );
   }
