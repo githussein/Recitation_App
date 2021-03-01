@@ -284,7 +284,7 @@ class _CounterState extends State<Counter> {
                     onTap: () {
                       FlutterShareMe().shareToWhatsApp(
                           msg:
-                              'فاذكروني أذكركم - \n${widget.zekrText}\nhttp://onelink.to/4m9xg8');
+                              'فاذكروني أذكركم - \n${widget.zekrText}\nhttps://kla.me/2M1hz');
                     }, // needed
                     child: Image.asset(
                       "images/whatsapp.png",
@@ -297,7 +297,7 @@ class _CounterState extends State<Counter> {
                 FloatingActionButton(
                   onPressed: () {
                     Share.share(
-                        'فاذكروني أذكركم - \n${widget.zekrText}\nhttp://onelink.to/4m9xg8');
+                        'فاذكروني أذكركم - \n${widget.zekrText}\nhttps://kla.me/2M1hz');
                   },
                   tooltip: 'share',
                   child: Icon(Icons.share),

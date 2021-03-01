@@ -219,7 +219,7 @@ class _AzkarState extends State<Azkar> {
               onTap: () {
                 FlutterShareMe().shareToWhatsApp(
                     msg:
-                        'فاذكروني أذكركم - \n$_titleToShare\nhttp://onelink.to/4m9xg8');
+                        'فاذكروني أذكركم - \n$_titleToShare\nhttps://kla.me/2M1hz');
               }, // needed
               child: Image.asset(
                 "images/whatsapp.png",
@@ -234,7 +234,7 @@ class _AzkarState extends State<Azkar> {
               // Share zekr title and app link
               setState(() {
                 Share.share(
-                    'فاذكروني أذكركم - \n$_titleToShare\nhttp://onelink.to/4m9xg8');
+                    'فاذكروني أذكركم - \n$_titleToShare\nhttps://kla.me/2M1hz');
               });
             },
             tooltip: 'share',

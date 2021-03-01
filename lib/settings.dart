@@ -4,7 +4,6 @@ import 'package:hijri_gregorian/NotificationPlugin.dart';
 import 'package:hijri_gregorian/config/palette.dart';
 import 'package:hijri_gregorian/main.dart';
 import 'package:share/share.dart';
-
 import 'favorites.dart';
 
 class Settings extends StatefulWidget {
@@ -21,7 +20,7 @@ class _SettingsState extends State<Settings> {
 
   //content to share to other apps
   String _textToShare =
-      'فاذكروني أذكركم - حمل تطبيق أذكار وأدعية \n\nhttp://onelink.to/4m9xg8';
+      'فاذكروني أذكركم - حمل تطبيق أذكار وأدعية \n\nhttps://kla.me/2M1hz';
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +178,7 @@ class _SettingsState extends State<Settings> {
                         //   child: InkWell(
                         //     onTap: () {
                         //       FlutterShareMe().shareToFacebook(
-                        //           msg: msg, url: 'http://onelink.to/4m9xg8');
+                        //           msg: msg, url: 'https://kla.me/2M1hz');
                         //     }, // needed
                         //     child: Image.asset(
                         //       "images/facebook.png",

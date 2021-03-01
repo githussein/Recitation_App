@@ -232,7 +232,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     //content to share to other apps
     String _textToShare =
-        'فاذكروني أذكركم - حمل تطبيق أذكار وأدعية \n\nhttp://onelink.to/4m9xg8';
+        'فاذكروني أذكركم - حمل تطبيق أذكار وأدعية \n\nhttps://kla.me/2M1hz';
 
     return Scaffold(
       appBar: AppBar(
@@ -515,7 +515,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       //   child: InkWell(
                       //     onTap: () {
                       //       FlutterShareMe().shareToFacebook(
-                      //           msg: msg, url: 'http://onelink.to/4m9xg8');
+                      //           msg: msg, url: 'https://kla.me/2M1hz');
                       //     }, // needed
                       //     child: Image.asset(
                       //       "images/facebook.png",
