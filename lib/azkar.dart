@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/painting.dart';
 import 'dart:convert';
-
 import 'package:flutter/rendering.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:hijri_gregorian/config/palette.dart';
 import 'package:share/share.dart';
+import 'dart:io';
 
 class Azkar extends StatefulWidget {
   final int selectedZekr;
@@ -138,50 +138,64 @@ class _AzkarState extends State<Azkar> {
                         textToShare = index['zekr'];
                         return Builder(
                           builder: (BuildContext context) {
-                            return ListView(
-                              children: [
-                                Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 5.0),
-                                    // margin: EdgeInsets.all(10.0),
-                                    padding: EdgeInsets.all(10.0),
-                                    decoration: BoxDecoration(
-                                        color: Colors.white.withOpacity(0.60),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(15))),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Text(
-                                          index['category'],
-                                          style: TextStyle(
-                                              fontSize: 18.0,
-                                              fontFamily: 'Cairo-Regular',
-                                              fontWeight: FontWeight.bold,
-                                              color: Color(0xFF1C3858)),
-                                          textDirection: TextDirection.rtl,
-                                        ),
-                                        SizedBox(height: 10.0),
-                                        Text(
-                                          index['zekr'],
-                                          style: TextStyle(
-                                              //@TODO is this the final font?
-                                              fontSize: 16.0,
-                                              fontFamily: 'Gabriola',
-                                              fontWeight: FontWeight.bold),
-                                          textDirection: TextDirection.rtl,
-                                        ),
-                                        SizedBox(height: 10),
-                                        Text(
-                                          index['description'],
-                                          style: TextStyle(
-                                              fontSize: 14.0,
-                                              color: Palette.accentColor),
-                                          textDirection: TextDirection.rtl,
-                                        ),
+                            return Container(
+                              child: myList.isEmpty
+                                  ? Container()
+                                  : ListView(
+                                      children: [
+                                        Container(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 5.0),
+                                            // margin: EdgeInsets.all(10.0),
+                                            padding: EdgeInsets.all(10.0),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white
+                                                    .withOpacity(0.60),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(15))),
+                                            child: Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  index['category'],
+                                                  style: TextStyle(
+                                                      fontSize: 18.0,
+                                                      fontFamily:
+                                                          'Cairo-Regular',
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Color(0xFF1C3858)),
+                                                  textDirection:
+                                                      TextDirection.rtl,
+                                                ),
+                                                SizedBox(height: 10.0),
+                                                Text(
+                                                  index['zekr'],
+                                                  style: TextStyle(
+                                                      //@TODO is this the final font?
+                                                      fontSize: 16.0,
+                                                      fontFamily: 'Gabriola',
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                  textDirection:
+                                                      TextDirection.rtl,
+                                                ),
+                                                SizedBox(height: 10),
+                                                Text(
+                                                  index['description'],
+                                                  style: TextStyle(
+                                                      fontSize: 14.0,
+                                                      color:
+                                                          Palette.accentColor),
+                                                  textDirection:
+                                                      TextDirection.rtl,
+                                                ),
+                                              ],
+                                            )),
                                       ],
-                                    )),
-                              ],
+                                    ),
                             );
                           },
                         );
