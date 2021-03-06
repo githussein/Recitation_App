@@ -261,19 +261,22 @@ class _CounterState extends State<Counter> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            FloatingActionButton(
-              onPressed: () {
-                setState(() {
-                  _totalCounter = 0;
-                });
-              },
-              tooltip: 'reset',
-              child: Icon(
-                Icons.settings_backup_restore,
-                color: Palette.primaryColor,
+            Container(
+              padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
+              child: FloatingActionButton(
+                onPressed: () {
+                  setState(() {
+                    _totalCounter = 0;
+                  });
+                },
+                tooltip: 'reset',
+                child: Icon(
+                  Icons.settings_backup_restore,
+                  color: Palette.primaryColor,
+                ),
+                backgroundColor: Colors.white,
+                heroTag: null,
               ),
-              backgroundColor: Colors.white,
-              heroTag: null,
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -309,19 +312,6 @@ class _CounterState extends State<Counter> {
             ),
           ],
         ),
-        // floatingActionButton: FloatingActionButton(
-        //   backgroundColor: Colors.white.withOpacity(0.55),
-        //   onPressed: () {
-        //     setState(() {
-        //       _totalCounter = 0;
-        //     });
-        //   },
-        //   tooltip: 'Increment',
-        //   child: Icon(
-        //     Icons.settings_backup_restore,
-        //     color: Colors.brown,
-        //   ),
-        // ),
       ),
     );
   }

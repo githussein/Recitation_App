@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:hijri_gregorian/NotificationPlugin.dart';
 import 'package:hijri_gregorian/config/palette.dart';
@@ -16,11 +17,12 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   //Local notifications
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  FlutterLocalNotificationsPlugin flutterLocalNotifications;
+  // NotificationPlugin notificationPlugin = NotificationPlugin._();
 
   //Flags for reminder switches
-  bool isDayNightReminder = true;
-  bool isSleepReminder = true;
+  bool sabahMasaaSwitch = true;
+  bool sleepSwitch = true;
 
   //Default selected tab from the bottom navigation bar
   int _selectedIndex = 0;
@@ -54,6 +56,18 @@ class _SettingsState extends State<Settings> {
     _masaaReminder = TimeOfDay(hour: _masaaHour, minute: _masaaMinute);
     _sleepReminder = TimeOfDay(hour: _sleepHour, minute: _sleepMinute);
 
+    //*************** init local notifications ***************//
+    var androidInit = AndroidInitializationSettings('app_icon');
+    var iOSInit = IOSInitializationSettings();
+    var initializationSettings = InitializationSettings(androidInit, iOSInit);
+    flutterLocalNotifications = FlutterLocalNotificationsPlugin();
+    flutterLocalNotifications.initialize(initializationSettings,
+        onSelectNotification: notificationSelected);
+
+    notificationPlugin
+        .setListenerForLowerVersions(onNotificationInLowerVersions);
+    notificationPlugin.setOnNotificationClick(onNotificationClick);
+
     // tod = TimeOfDay(hour: _sabahHour, minute: _sabahMinute);
     // s = _sabahReminder.hour.toString() + ':' + _sabahReminder.minute.toString();
     // tod = TimeOfDay(hour: _sabahHour, minute: _sabahMinute);
@@ -69,6 +83,7 @@ class _SettingsState extends State<Settings> {
         _sabahReminder = _pickedTime;
         _sabahHour = _sabahReminder.hour;
         _sabahMinute = _sabahReminder.minute;
+        _sabahMasaaNotification(true);
         //
         // s = _sabahReminder.hour.toString() +
         //     ':' +
@@ -88,8 +103,10 @@ class _SettingsState extends State<Settings> {
         _sleepReminder = _pickedTime;
         _sleepHour = _sleepReminder.hour;
         _sleepMinute = _sleepReminder.minute;
+        _sleepNotification(true);
       });
     }
+
     //save changes to SharedPreferences
     _save();
   }
@@ -122,14 +139,22 @@ class _SettingsState extends State<Settings> {
             child: ListView(
               padding: EdgeInsets.all(10),
               children: <Widget>[
+                RaisedButton(
+                  onPressed: () {
+                    _sabahMasaaNotification(true);
+                  },
+                  // _showNotification,
+                  child: Text('SHOW NOTIFICATION'),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Switch(
-                      value: isDayNightReminder,
+                      value: sabahMasaaSwitch,
                       onChanged: (value) {
                         setState(() async {
-                          isDayNightReminder = value;
+                          sabahMasaaSwitch = value;
+                          // _sabahMasaaNotification(true);
                         });
                       },
                       activeTrackColor: Colors.grey,
@@ -210,14 +235,13 @@ class _SettingsState extends State<Settings> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Switch(
-                      value: isSleepReminder,
+                      value: sleepSwitch,
                       onChanged: (value) async {
                         setState(() {
-                          isSleepReminder = value;
+                          sleepSwitch = value;
                         });
                         if (value) {
-                          await notificationPlugin.showDailyAtTime(
-                              2, 40, 'أذكار الصباح والمساء');
+                          _sleepNotification(true);
                         }
                       },
                       activeTrackColor: Colors.grey,
@@ -452,4 +476,72 @@ class _SettingsState extends State<Settings> {
     _read();
     return "";
   }
+
+  //Methods required to initiate local notifications
+  Future _showNotification() async {
+    var androidDetails = AndroidNotificationDetails(
+        "ID_9", "Channel_INSTANT", "channel_09",
+        importance: Importance.Max);
+    var iSODetails = IOSNotificationDetails();
+    var generalNotificationDetails =
+        NotificationDetails(androidDetails, iSODetails);
+
+    await flutterLocalNotifications.show(
+      9,
+      "show notification",
+      "instant notification - body",
+      generalNotificationDetails,
+      payload: "Task",
+    );
+
+    // var scheduledTime = DateTime.now().add(Duration(hours: 1));
+    // flutterNotification.schedule(1, "تنبيه بالذكر", "سبحان الله وبحمده",
+    //     scheduledTime, generalNotificationDetails);
+  }
+
+  void _sabahMasaaNotification(bool switched) async {
+    var androidDetails = AndroidNotificationDetails(
+        "ID_0", "Channel_SABAHMASAA", "channel_0",
+        importance: Importance.Max);
+    var iSODetails = IOSNotificationDetails();
+    var generalNotificationDetails =
+        NotificationDetails(androidDetails, iSODetails);
+
+    // if (switched) {
+    await flutterLocalNotifications.showDailyAtTime(
+        0,
+        "أذكار وأدعية",
+        "تنبيه بأذكار الصباح والمساء",
+        Time(_sabahHour, _sabahMinute, 0),
+        generalNotificationDetails);
+    // }
+  }
+
+  void _sleepNotification(bool switched) async {
+    var androidDetails = AndroidNotificationDetails(
+        "ID_2", "Channel_SLEEP", "channel_2",
+        importance: Importance.Max);
+    var iSODetails = IOSNotificationDetails();
+    var generalNotificationDetails =
+        NotificationDetails(androidDetails, iSODetails);
+
+    // if (switched) {
+    await flutterLocalNotifications.showDailyAtTime(
+        2,
+        "أذكار وأدعية",
+        "تنبيه بأذكار النوم",
+        Time(_sleepHour, _sleepMinute, 0),
+        generalNotificationDetails);
+    // }
+  }
+
+  onNotificationInLowerVersions(ReceivedNotification receivedNotification) {
+    print('Notification Received ${receivedNotification.id}');
+  }
+
+  onNotificationClick(String payload) {
+    print('Payload $payload');
+  }
+
+  Future notificationSelected(String payload) async {}
 }

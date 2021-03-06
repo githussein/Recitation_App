@@ -267,13 +267,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                       Text(
-                        '$_dayName' +
-                            '${_hijriDate.hDay}' +
-                            ' $_hijriMonth ' +
-                            '${_hijriDate.hYear}' +
-                            ' - ' +
-                            ' ${_gregorianDate.day} ' +
-                            ' $_gregorianMonth ' +
+                        '$_dayName ' +
+                            '${_hijriDate.hDay} ' +
+                            '$_hijriMonth ' +
+                            '${_hijriDate.hYear} ' +
+                            '- ' +
+                            '${_gregorianDate.day} ' +
+                            '$_gregorianMonth ' +
                             '${_gregorianDate.year}',
                         textDirection: TextDirection.rtl,
                         style: TextStyle(
