@@ -16,6 +16,7 @@ import 'package:hijri/hijri_calendar.dart';
 import 'package:share/share.dart';
 
 void main() {
+  ErrorWidget.builder = (FlutterErrorDetails details) => Container();
   runApp(MyApp());
 }
 
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
       title: 'أذكار وأدعية',
       theme: ThemeData(
         primaryColor: Palette.primaryColor,
+        accentColor: Palette.accentColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(title: 'أذكار وأدعية'),
