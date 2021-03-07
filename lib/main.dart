@@ -306,7 +306,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       decoration: BoxDecoration(
                           color: Palette.accentColor.withOpacity(0.40)),
                       child: Text(
-                        ' باقي على رمضان $_difference يوما',
+                        // ' باقي على رمضان $_difference يوما',
+                        'عرض المناسبات القادمة >',
                         style: TextStyle(
                           color: Palette.primaryColor,
                           fontSize: 16,

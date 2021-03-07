@@ -10,10 +10,6 @@ class Events extends StatefulWidget {
 }
 
 class _EventsState extends State<Events> {
-  dynamic data;
-
-  Map<String, dynamic> demoData = {"name": "event_name", "day": "event_day"};
-
   @override
   Widget build(BuildContext context) {
     final _ramadan = DateTime.parse('2021-04-13 00:00:00.000');

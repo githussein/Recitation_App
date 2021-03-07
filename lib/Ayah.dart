@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:hijri_gregorian/config/palette.dart';
 import 'package:share/share.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Ayah extends StatefulWidget {
   @override
@@ -22,40 +23,60 @@ class _AyahState extends State<Ayah> {
             fit: BoxFit.cover,
           ),
         ),
-        child: Container(
-          margin: EdgeInsets.all(10.0),
-          padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
-          decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.60),
-              borderRadius: BorderRadius.all(Radius.circular(15))),
-          child: Column(
-            children: <Widget>[
-              Text(
-                ':أعوذ بالله من الشيطن الرجيم',
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: Color(0xFF1C3858),
-                ),
-              ),
-              Text(
-                'أَحَسِبَ النَّاسُ أَن يُتْرَكُوا أَن يَقُولُوا آمَنَّا وَهُمْ لا يُفْتَنُونَ',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.0,
-                  fontFamily: 'Gabriola',
-                ),
-              ),
-              Text(
-                'سورة العنكبوت',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: Color(0xFF1C3858),
-                ),
-              ),
-            ],
-          ),
+        child: StreamBuilder(
+          stream: FirebaseFirestore.instance.collection("Ayah").snapshots(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              return ListView(
+                children: snapshot.data.docs.map((document) {
+                  return Container(
+                    margin: EdgeInsets.fromLTRB(0, 5.0, 0, 5.0),
+                    padding: EdgeInsets.all(5.0),
+                    decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.7),
+                        borderRadius: BorderRadius.all(Radius.circular(25))),
+                    child: Column(
+                      children: [
+                        Text(
+                          'أعوذ بالله من الشيطان الرجيم',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontFamily: 'Cairo-Regular',
+                          ),
+                          textDirection: TextDirection.rtl,
+                        ),
+                        Text(
+                          '${document['text']}',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.0,
+                            fontFamily: 'Gabriola',
+                          ),
+                          textDirection: TextDirection.rtl,
+                        ),
+                        Text(
+                          '${document['surah']}',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontFamily: 'Cairo-Regular',
+                          ),
+                          textDirection: TextDirection.rtl,
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList(),
+              );
+            }
+          },
         ),
       ),
       floatingActionButton: Column(
