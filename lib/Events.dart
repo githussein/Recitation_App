@@ -1,5 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:hijri_gregorian/azkar.dart';
 import 'package:hijri/hijri_calendar.dart';
 import 'package:hijri_gregorian/config/palette.dart';
 
@@ -9,6 +10,10 @@ class Events extends StatefulWidget {
 }
 
 class _EventsState extends State<Events> {
+  dynamic data;
+
+  Map<String, dynamic> demoData = {"name": "event_name", "day": "event_day"};
+
   @override
   Widget build(BuildContext context) {
     final _ramadan = DateTime.parse('2021-04-13 00:00:00.000');
@@ -19,78 +24,6 @@ class _EventsState extends State<Events> {
     final _beforeRamadan = _ramadan.difference(_gregorianDate).inDays;
     final _beforeFitr = _fitrDate.difference(_gregorianDate).inDays;
     final _beforeAdha = _adhaDate.difference(_gregorianDate).inDays;
-
-    var _hijriDate = new HijriCalendar.now();
-
-    String _hijriMonth = "";
-    switch (_hijriDate.hMonth) {
-      case 1:
-        _hijriMonth = 'محرم';
-        break;
-      case 2:
-        _hijriMonth = 'صفر';
-        break;
-      case 3:
-        _hijriMonth = 'ربيع الأول';
-        break;
-      case 4:
-        _hijriMonth = 'ربيع الآخر';
-        break;
-      case 5:
-        _hijriMonth = 'جمادى الأولى';
-        break;
-      case 6:
-        _hijriMonth = 'جمادى الآخرة';
-        break;
-      case 7:
-        _hijriMonth = 'رجب';
-        break;
-      case 8:
-        _hijriMonth = 'شعبـان';
-        break;
-      case 9:
-        _hijriMonth = 'رمضان';
-        break;
-      case 10:
-        _hijriMonth = 'شوال';
-        break;
-      case 11:
-        _hijriMonth = 'ذو القعدة';
-        break;
-      case 12:
-        _hijriMonth = 'ذو الحجة';
-        break;
-      default:
-        _hijriMonth = 'الشهر الهجري';
-    }
-
-    //Day name in Arabic
-    String _dayName = "";
-    switch (_gregorianDate.weekday) {
-      case 1:
-        _dayName = 'الإثنين';
-        break;
-      case 2:
-        _dayName = 'الثلاثاء';
-        break;
-      case 3:
-        _dayName = 'االأربعأء';
-        break;
-      case 4:
-        _dayName = 'الخميس';
-        break;
-      case 5:
-        _dayName = 'الجمعة';
-        break;
-      case 6:
-        _dayName = 'السبت';
-        break;
-      case 7:
-        _dayName = 'الأحـد';
-        break;
-      default:
-        _dayName = 'اليوم';
-    }
 
     return Scaffold(
       appBar: AppBar(
@@ -103,139 +36,245 @@ class _EventsState extends State<Events> {
             fit: BoxFit.cover,
           ),
         ),
-        child: ListView(
-          primary: false,
-          padding: const EdgeInsets.all(15.0),
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.fromLTRB(0, 0, 0, 5.0),
-              padding: EdgeInsets.all(5.0),
-              decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.7),
-                  borderRadius: BorderRadius.all(Radius.circular(25))),
-              child: Column(
-                children: [
-                  Text(
-                    'شهر رمضان',
-                    textAlign: TextAlign.center,
-                    style:
-                        TextStyle(fontSize: 18.0, fontFamily: 'Cairo-Regular'),
-                    textDirection: TextDirection.rtl,
-                  ),
-                  Text(
-                    'الثلاثاء ' +
-                        //'$_dayName ' +
-                        ' ${_ramadanDate.day}' +
-                        ' أبريل' +
-                        // ' ${_ramadanDate.month}' +
-                        ' ${_ramadanDate.year}',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontFamily: 'Cairo-Regular',
-                      color: Palette.accentColor,
+        child: StreamBuilder(
+          stream: FirebaseFirestore.instance.collection("Events").snapshots(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              return ListView(
+                children: snapshot.data.docs.map((document) {
+                  //handle date options
+                  DateTime date = document['date'].toDate();
+                  int _daysBefore = date.difference(_gregorianDate).inDays;
+                  bool _isVisible = true;
+
+                  String _difference = "";
+                  if (_daysBefore == 0) {
+                    _difference = "االيوم";
+                    _isVisible = true;
+                  } else if (_daysBefore == 1) {
+                    _difference = "غدا";
+                    _isVisible = true;
+                  } else if (_daysBefore < 0) {
+                    _difference = "";
+                    _isVisible = false;
+                  } else {
+                    _difference = 'بعد' + ' $_daysBefore ' + 'يوما';
+                    _isVisible = true;
+                  }
+
+                  return Visibility(
+                    visible: _isVisible,
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(0, 5.0, 0, 5.0),
+                      padding: EdgeInsets.all(5.0),
+                      decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.7),
+                          borderRadius: BorderRadius.all(Radius.circular(25))),
+                      child: Column(
+                        children: [
+                          Text(
+                            '${document['event_name']}',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 18.0, fontFamily: 'Cairo-Regular'),
+                            textDirection: TextDirection.rtl,
+                          ),
+                          Text(
+                            '${document['day_name']} ' +
+                                '${_fitrDate.day} ' +
+                                '${document['month']} ' +
+                                // ' $_hijriMonth' +
+                                '${document['year']} ',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontFamily: 'Cairo-Regular',
+                              color: Palette.accentColor,
+                            ),
+                            textDirection: TextDirection.rtl,
+                          ),
+                          Text(
+                            // '${date.day}',
+                            '$_difference',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontFamily: 'Cairo-Regular',
+                            ),
+                            textDirection: TextDirection.rtl,
+                          ),
+                        ],
+                      ),
                     ),
-                    textDirection: TextDirection.rtl,
-                  ),
-                  Text(
-                    'بعد' + ' $_beforeRamadan ' + 'يوما',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontFamily: 'Cairo-Regular',
-                    ),
-                    textDirection: TextDirection.rtl,
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.fromLTRB(0, 5.0, 0, 5.0),
-              padding: EdgeInsets.all(5.0),
-              decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.7),
-                  borderRadius: BorderRadius.all(Radius.circular(25))),
-              child: Column(
-                children: [
-                  Text(
-                    'عيد الفطر',
-                    textAlign: TextAlign.center,
-                    style:
-                        TextStyle(fontSize: 18.0, fontFamily: 'Cairo-Regular'),
-                    textDirection: TextDirection.rtl,
-                  ),
-                  Text(
-                    'الخميس ' +
-                        // '$_dayName ' +
-                        ' ${_fitrDate.day}' +
-                        ' مايو' +
-                        // ' $_hijriMonth' +
-                        ' ${_fitrDate.year}',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontFamily: 'Cairo-Regular',
-                      color: Palette.accentColor,
-                    ),
-                    textDirection: TextDirection.rtl,
-                  ),
-                  Text(
-                    'بعد' + ' $_beforeFitr ' + 'يوما',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontFamily: 'Cairo-Regular',
-                    ),
-                    textDirection: TextDirection.rtl,
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.fromLTRB(0, 5.0, 0, 5.0),
-              padding: EdgeInsets.all(5.0),
-              decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.7),
-                  borderRadius: BorderRadius.all(Radius.circular(25))),
-              child: Column(
-                children: [
-                  Text(
-                    'عيد الأضحى',
-                    textAlign: TextAlign.center,
-                    style:
-                        TextStyle(fontSize: 18.0, fontFamily: 'Cairo-Regular'),
-                    textDirection: TextDirection.rtl,
-                  ),
-                  Text(
-                    'الإثنين ' +
-                        // '$_dayName ' +
-                        ' ${_adhaDate.day}' +
-                        ' يوليه' +
-                        // ' $_hijriMonth' +
-                        ' ${_adhaDate.year}',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontFamily: 'Cairo-Regular',
-                      color: Palette.accentColor,
-                    ),
-                    textDirection: TextDirection.rtl,
-                  ),
-                  Text(
-                    'بعد' + ' $_beforeAdha ' + 'يوما',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontFamily: 'Cairo-Regular',
-                    ),
-                    textDirection: TextDirection.rtl,
-                  ),
-                ],
-              ),
-            ),
-          ],
+                  );
+                }).toList(),
+              );
+            }
+          },
         ),
       ),
+      // Container(
+      //   decoration: BoxDecoration(
+      //     image: DecorationImage(
+      //       image: AssetImage('images/background.png'),
+      //       fit: BoxFit.cover,
+      //     ),
+      //   ),
+      //   child: ListView(
+      //     primary: false,
+      //     padding: const EdgeInsets.all(15.0),
+      //     children: <Widget>[
+      //       Container(
+      //         margin: EdgeInsets.fromLTRB(0, 0, 0, 5.0),
+      //         padding: EdgeInsets.all(5.0),
+      //         decoration: BoxDecoration(
+      //             color: Colors.white.withOpacity(0.7),
+      //             borderRadius: BorderRadius.all(Radius.circular(25))),
+      //         child: Column(
+      //           children: [
+      //             Text(
+      //               'شهر رمضان',
+      //               textAlign: TextAlign.center,
+      //               style:
+      //                   TextStyle(fontSize: 18.0, fontFamily: 'Cairo-Regular'),
+      //               textDirection: TextDirection.rtl,
+      //             ),
+      //             Text(
+      //               'الثلاثاء ' +
+      //                   //'$_dayName ' +
+      //                   ' ${_ramadanDate.day}' +
+      //                   ' أبريل' +
+      //                   // ' ${_ramadanDate.month}' +
+      //                   ' ${_ramadanDate.year}',
+      //               textAlign: TextAlign.center,
+      //               style: TextStyle(
+      //                 fontSize: 16.0,
+      //                 fontFamily: 'Cairo-Regular',
+      //                 color: Palette.accentColor,
+      //               ),
+      //               textDirection: TextDirection.rtl,
+      //             ),
+      //             Text(
+      //               'بعد' + ' $_beforeRamadan ' + 'يوما',
+      //               textAlign: TextAlign.center,
+      //               style: TextStyle(
+      //                 fontSize: 18.0,
+      //                 fontFamily: 'Cairo-Regular',
+      //               ),
+      //               textDirection: TextDirection.rtl,
+      //             ),
+      //           ],
+      //         ),
+      //       ),
+      //       Container(
+      //         margin: EdgeInsets.fromLTRB(0, 5.0, 0, 5.0),
+      //         padding: EdgeInsets.all(5.0),
+      //         decoration: BoxDecoration(
+      //             color: Colors.white.withOpacity(0.7),
+      //             borderRadius: BorderRadius.all(Radius.circular(25))),
+      //         child: Column(
+      //           children: [
+      //             Text(
+      //               'عيد الفطر',
+      //               textAlign: TextAlign.center,
+      //               style:
+      //                   TextStyle(fontSize: 18.0, fontFamily: 'Cairo-Regular'),
+      //               textDirection: TextDirection.rtl,
+      //             ),
+      //             Text(
+      //               'الخميس ' +
+      //                   // '$_dayName ' +
+      //                   ' ${_fitrDate.day}' +
+      //                   ' مايو' +
+      //                   // ' $_hijriMonth' +
+      //                   ' ${_fitrDate.year}',
+      //               textAlign: TextAlign.center,
+      //               style: TextStyle(
+      //                 fontSize: 16.0,
+      //                 fontFamily: 'Cairo-Regular',
+      //                 color: Palette.accentColor,
+      //               ),
+      //               textDirection: TextDirection.rtl,
+      //             ),
+      //             Text(
+      //               'بعد' + ' $_beforeFitr ' + 'يوما',
+      //               textAlign: TextAlign.center,
+      //               style: TextStyle(
+      //                 fontSize: 18.0,
+      //                 fontFamily: 'Cairo-Regular',
+      //               ),
+      //               textDirection: TextDirection.rtl,
+      //             ),
+      //           ],
+      //         ),
+      //       ),
+      //       Container(
+      //         margin: EdgeInsets.fromLTRB(0, 5.0, 0, 5.0),
+      //         padding: EdgeInsets.all(5.0),
+      //         decoration: BoxDecoration(
+      //             color: Colors.white.withOpacity(0.7),
+      //             borderRadius: BorderRadius.all(Radius.circular(25))),
+      //         child: Column(
+      //           children: [
+      //             Text(
+      //               'عيد الأضحى',
+      //               textAlign: TextAlign.center,
+      //               style:
+      //                   TextStyle(fontSize: 18.0, fontFamily: 'Cairo-Regular'),
+      //               textDirection: TextDirection.rtl,
+      //             ),
+      //             Text(
+      //               'الإثنين ' +
+      //                   // '$_dayName ' +
+      //                   ' ${_adhaDate.day}' +
+      //                   ' يوليه' +
+      //                   // ' $_hijriMonth' +
+      //                   ' ${_adhaDate.year}',
+      //               textAlign: TextAlign.center,
+      //               style: TextStyle(
+      //                 fontSize: 16.0,
+      //                 fontFamily: 'Cairo-Regular',
+      //                 color: Palette.accentColor,
+      //               ),
+      //               textDirection: TextDirection.rtl,
+      //             ),
+      //             Text(
+      //               'بعد' + ' $_beforeAdha ' + 'يوما',
+      //               textAlign: TextAlign.center,
+      //               style: TextStyle(
+      //                 fontSize: 18.0,
+      //                 fontFamily: 'Cairo-Regular',
+      //               ),
+      //               textDirection: TextDirection.rtl,
+      //             ),
+      //           ],
+      //         ),
+      //       ),
+      //       RaisedButton(
+      //         onPressed: () {
+      //           _saveMap();
+      //         },
+      //         child: Text('SAVE'),
+      //       ),
+      //       RaisedButton(
+      //         onPressed: () {
+      //           _readFBDB();
+      //         },
+      //         child: Text('Read'),
+      //       ),
+      //       Text(data.toString()),
+      //     ],
+      //   ),
+      // ),
     );
   }
+
+  void _readFBDB() {}
+
+  void _saveMap() {}
 }

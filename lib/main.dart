@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:hijri_gregorian/Ayah.dart';
@@ -14,13 +16,18 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:hijri/hijri_calendar.dart';
 import 'package:share/share.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
-  ErrorWidget.builder = (FlutterErrorDetails details) => Container();
+Future<void> main() async {
+  //Initialize the Firebase library before doing anything else
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  final Future<FirebaseApp> _fbApp = Firebase.initializeApp();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -45,6 +52,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  // final databaseReference = FirebaseDatabase.instance.reference();
+
   //Default selected tab from the bottom navigation bar
   int _selectedIndex = 2;
   // final List<Widget> _widgetOptions = [];

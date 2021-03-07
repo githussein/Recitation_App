@@ -35,6 +35,10 @@ dependencies:
 
   # Firebase integration
   firebase: ^8.0.0
+  #firebase_core: ^0.5.2
+  #firebase_database: ^4.3.0
+  cloud_firestore: ^0.16.0
+
   # OneSignal notifications
   onesignal_flutter: ^2.6.1
   # Hijri date package
