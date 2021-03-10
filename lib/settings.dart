@@ -10,12 +10,12 @@ import 'package:hijri_gregorian/NotificationPlugin.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Settings extends StatefulWidget {
+class UserSettings extends StatefulWidget {
   @override
-  _SettingsState createState() => _SettingsState();
+  _UserSettingsState createState() => _UserSettingsState();
 }
 
-class _SettingsState extends State<Settings> {
+class _UserSettingsState extends State<UserSettings> {
   //Local notifications
   FlutterLocalNotificationsPlugin flutterLocalNotifications;
   // NotificationPlugin notificationPlugin = NotificationPlugin._();
@@ -35,11 +35,11 @@ class _SettingsState extends State<Settings> {
   TimeOfDay _sabahReminder;
   TimeOfDay _masaaReminder;
   TimeOfDay _sleepReminder;
-  int _sabahHour = 6;
+  int _sabahHour = 7;
   int _sabahMinute = 0;
   int _masaaHour = 17;
   int _masaaMinute = 0;
-  int _sleepHour = 10;
+  int _sleepHour = 23;
   int _sleepMinute = 0;
   TimeOfDay tod;
   String s;
@@ -139,12 +139,24 @@ class _SettingsState extends State<Settings> {
             child: ListView(
               padding: EdgeInsets.all(10),
               children: <Widget>[
-                RaisedButton(
-                  onPressed: () {
-                    _sabahMasaaNotification(true);
-                  },
+                Container(
+                  padding: EdgeInsets.all(5.0),
+                  margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                  decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.7),
+                      borderRadius: BorderRadius.all(Radius.circular(25))),
                   // _showNotification,
-                  child: Text('SHOW NOTIFICATION'),
+                  child: Text(
+                    'إعدادات التنبيهات',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontFamily: 'Cairo-Regular',
+                      fontWeight: FontWeight.bold,
+                      color: Palette.primaryColor,
+                    ),
+                    textDirection: TextDirection.rtl,
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -456,15 +468,15 @@ class _SettingsState extends State<Settings> {
   _read() async {
     final prefs = await SharedPreferences.getInstance();
 
-    _sabahHour = prefs.getInt('sabah_hour') ?? 0;
+    _sabahHour = prefs.getInt('sabah_hour') ?? 7;
     _sabahMinute = prefs.getInt('sabah_minute') ?? 0;
     _sabahReminder = TimeOfDay(hour: _sabahHour, minute: _sabahMinute);
 
-    _masaaHour = prefs.getInt('masaa_hour') ?? 0;
+    _masaaHour = prefs.getInt('masaa_hour') ?? 17;
     _masaaMinute = prefs.getInt('masaa_minute') ?? 0;
     _masaaReminder = TimeOfDay(hour: _masaaHour, minute: _masaaMinute);
 
-    _sleepHour = prefs.getInt('sleep_hour') ?? 0;
+    _sleepHour = prefs.getInt('sleep_hour') ?? 23;
     _sleepMinute = prefs.getInt('sleep_minute') ?? 0;
     _sleepReminder = TimeOfDay(hour: _sleepHour, minute: _sleepMinute);
 

@@ -66,7 +66,7 @@ class _EventsState extends State<Events> {
                   return Visibility(
                     visible: _isVisible,
                     child: Container(
-                      margin: EdgeInsets.fromLTRB(0, 5.0, 0, 5.0),
+                      margin: EdgeInsets.all(10),
                       padding: EdgeInsets.all(5.0),
                       decoration: BoxDecoration(
                           color: Colors.white.withOpacity(0.7),
@@ -82,9 +82,8 @@ class _EventsState extends State<Events> {
                           ),
                           Text(
                             '${document['day_name']} ' +
-                                '${_fitrDate.day} ' +
+                                '${document['day']} ' +
                                 '${document['month']} ' +
-                                // ' $_hijriMonth' +
                                 '${document['year']} ',
                             textAlign: TextAlign.center,
                             style: TextStyle(
@@ -95,7 +94,6 @@ class _EventsState extends State<Events> {
                             textDirection: TextDirection.rtl,
                           ),
                           Text(
-                            // '${date.day}',
                             '$_difference',
                             textAlign: TextAlign.center,
                             style: TextStyle(

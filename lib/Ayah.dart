@@ -35,7 +35,7 @@ class _AyahState extends State<Ayah> {
               return ListView(
                 children: snapshot.data.docs.map((document) {
                   return Container(
-                    margin: EdgeInsets.fromLTRB(0, 5.0, 0, 5.0),
+                    margin: EdgeInsets.all(10),
                     padding: EdgeInsets.all(5.0),
                     decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.7),
@@ -51,6 +51,7 @@ class _AyahState extends State<Ayah> {
                           ),
                           textDirection: TextDirection.rtl,
                         ),
+                        SizedBox(height: 10),
                         Text(
                           '${document['text']}',
                           textAlign: TextAlign.center,
@@ -61,6 +62,7 @@ class _AyahState extends State<Ayah> {
                           ),
                           textDirection: TextDirection.rtl,
                         ),
+                        SizedBox(height: 10),
                         Text(
                           '${document['surah']}',
                           textAlign: TextAlign.center,

@@ -118,98 +118,98 @@ class _AzkarState extends State<Azkar> {
 
                 List myList = jsonResult;
 
-                if (snapshot.hasData) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      CarouselSlider(
-                        options: CarouselOptions(
-                          height: 600.0,
-                          // reverse: true,
-                          enlargeCenterPage: true,
-                          onPageChanged: (index, reason) {
-                            setState(() {
-                              _current = index;
-                            });
-                          },
-                        ),
-                        items: myList.map((index) {
-                          // titleToShare = index['category'];
-                          textToShare = index['zekr'];
-                          return Builder(
-                            builder: (BuildContext context) {
-                              return ListView(
-                                children: [
-                                  Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 5.0),
-                                      // margin: EdgeInsets.all(10.0),
-                                      padding: EdgeInsets.all(10.0),
-                                      decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(0.60),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(15))),
-                                      child: Column(
-                                        children: <Widget>[
-                                          Text(
-                                            index['category'],
-                                            style: TextStyle(
-                                                fontSize: 18.0,
-                                                fontFamily: 'Cairo-Regular',
-                                                fontWeight: FontWeight.bold,
-                                                color: Color(0xFF1C3858)),
-                                            textDirection: TextDirection.rtl,
-                                          ),
-                                          SizedBox(height: 10.0),
-                                          Text(
-                                            index['zekr'],
-                                            style: TextStyle(
-                                                //@TODO is this the final font?
-                                                fontSize: 16.0,
-                                                fontFamily: 'Gabriola',
-                                                fontWeight: FontWeight.bold),
-                                            textDirection: TextDirection.rtl,
-                                          ),
-                                          SizedBox(height: 10),
-                                          Text(
-                                            index['description'],
-                                            style: TextStyle(
-                                                fontSize: 14.0,
-                                                color: Palette.accentColor),
-                                            textDirection: TextDirection.rtl,
-                                          ),
-                                        ],
-                                      )),
-                                ],
-                              );
-                            },
-                          );
-                        }).toList(),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: map<Widget>(myList, (index, url) {
-                          return Container(
-                            height: 8.0,
-                            width: 8.0,
-                            margin: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 1.0),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: _current == index
-                                  ? Palette.accentColor
-                                  : Colors.grey,
-                            ),
-                          );
-                        }),
-                      ),
-                    ],
-                  );
-                } else {
+                if (!snapshot.hasData) {
                   return Center(child: CircularProgressIndicator());
                 }
+
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    CarouselSlider(
+                      options: CarouselOptions(
+                        height: 600.0,
+                        // reverse: true,
+                        enlargeCenterPage: true,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _current = index;
+                          });
+                        },
+                      ),
+                      items: myList.map((index) {
+                        // titleToShare = index['category'];
+                        textToShare = index['zekr'];
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return ListView(
+                              children: [
+                                Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 5.0),
+                                    // margin: EdgeInsets.all(10.0),
+                                    padding: EdgeInsets.all(10.0),
+                                    decoration: BoxDecoration(
+                                        color: Colors.white.withOpacity(0.60),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(15))),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Text(
+                                          index['category'],
+                                          style: TextStyle(
+                                              fontSize: 18.0,
+                                              fontFamily: 'Cairo-Regular',
+                                              fontWeight: FontWeight.bold,
+                                              color: Color(0xFF1C3858)),
+                                          textDirection: TextDirection.rtl,
+                                        ),
+                                        SizedBox(height: 10.0),
+                                        Text(
+                                          index['zekr'],
+                                          style: TextStyle(
+                                              //@TODO is this the final font?
+                                              fontSize: 16.0,
+                                              fontFamily: 'Gabriola',
+                                              fontWeight: FontWeight.bold),
+                                          textDirection: TextDirection.rtl,
+                                        ),
+                                        SizedBox(height: 10),
+                                        Text(
+                                          index['description'],
+                                          style: TextStyle(
+                                              fontSize: 14.0,
+                                              color: Palette.accentColor),
+                                          textDirection: TextDirection.rtl,
+                                        ),
+                                      ],
+                                    )),
+                              ],
+                            );
+                          },
+                        );
+                      }).toList(),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: map<Widget>(myList, (index, url) {
+                        return Container(
+                          height: 8.0,
+                          width: 8.0,
+                          margin: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 1.0),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: _current == index
+                                ? Palette.accentColor
+                                : Colors.grey,
+                          ),
+                        );
+                      }),
+                    ),
+                  ],
+                );
               }),
         ),
       ),

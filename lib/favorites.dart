@@ -124,7 +124,7 @@ class _FavoritesState extends State<Favorites> {
           context, MaterialPageRoute(builder: (context) => MyHomePage()));
     } else if (index == 0) {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Settings()));
+          context, MaterialPageRoute(builder: (context) => UserSettings()));
     }
     // setState(() {
     //   _selectedIndex = index;

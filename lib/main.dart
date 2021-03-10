@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:hijri_gregorian/Ayah.dart';
@@ -17,16 +15,18 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:hijri/hijri_calendar.dart';
 import 'package:share/share.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 Future<void> main() async {
   //Initialize the Firebase library before doing anything else
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final Future<FirebaseApp> _fbApp = Firebase.initializeApp();
+  // final Future<FirebaseApp> _fbApp = Firebase.initializeApp();
 
   @override
   Widget build(BuildContext context) {
@@ -294,34 +294,68 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
                 ),
-                SizedBox(width: 10),
-                Material(
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Events()));
-                    },
-                    child: Container(
-                      padding: EdgeInsets.fromLTRB(10, 5.0, 10.0, 5.0),
-                      decoration: BoxDecoration(
-                          color: Palette.accentColor.withOpacity(0.40)),
-                      child: Text(
-                        // ' باقي على رمضان $_difference يوما',
-                        'عرض المناسبات القادمة >',
-                        style: TextStyle(
-                          color: Palette.primaryColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Cairo-Regular',
-                        ),
-                        textAlign: TextAlign.center,
-                        textDirection: TextDirection.rtl,
-                      ),
-                    ),
-                  ),
-                ),
               ],
             ),
+            StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('Homepage_Event')
+                    .doc('TdlLYQTVOQCU0ZBuOKvR')
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return CircularProgressIndicator();
+                  }
+                  //handle date and display options
+                  var myDocument = snapshot.data;
+
+                  DateTime date = myDocument['date'].toDate();
+                  int _daysBefore = date.difference(_gregorianDate).inDays;
+                  bool _isVisible = true;
+
+                  String _difference = "";
+                  if (_daysBefore == 0) {
+                    _difference = "االيوم";
+                    _isVisible = true;
+                  } else if (_daysBefore == 1) {
+                    _difference = "غدا";
+                    _isVisible = true;
+                  } else if (_daysBefore < 0) {
+                    _difference = "";
+                    _isVisible = false;
+                  } else {
+                    _difference = ' بعد' + ' $_daysBefore ' + 'يوما';
+                    _isVisible = true;
+                  }
+                  return Visibility(
+                    visible: _isVisible,
+                    child: Material(
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Events()));
+                        },
+                        child: Container(
+                          padding: EdgeInsets.fromLTRB(20, 5.0, 20.0, 5.0),
+                          decoration: BoxDecoration(
+                              color: Palette.accentColor.withOpacity(0.40)),
+                          child: Text(
+                            '${myDocument['event_name']} ' + '$_difference',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Palette.primaryColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Cairo-Regular',
+                            ),
+                            textDirection: TextDirection.rtl,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                }),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -380,7 +414,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               size: 50.0,
                             ),
                             Text(
-                              '         حديث         ',
+                              '     حديث شريف    ',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -608,7 +642,7 @@ class _MyHomePageState extends State<MyHomePage> {
           context, MaterialPageRoute(builder: (context) => Favorites()));
     } else if (index == 0) {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Settings()));
+          context, MaterialPageRoute(builder: (context) => UserSettings()));
     }
   }
 
