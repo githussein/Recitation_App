@@ -33,6 +33,9 @@
 # Web related
 lib/generated_plugin_registrant.dart
 
+# Android related
+**/android/key.properties
+
 # Symbolication related
 app.*.symbols
 

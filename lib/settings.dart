@@ -20,7 +20,7 @@ class _UserSettingsState extends State<UserSettings> {
   FlutterLocalNotificationsPlugin flutterLocalNotifications;
   // NotificationPlugin notificationPlugin = NotificationPlugin._();
 
-  //Flags for reminder switches
+  //Flags for notifications switches
   bool sabahMasaaSwitch = true;
   bool sleepSwitch = true;
 
@@ -97,6 +97,7 @@ class _UserSettingsState extends State<UserSettings> {
         _masaaReminder = _pickedTime;
         _masaaHour = _masaaReminder.hour;
         _masaaMinute = _masaaReminder.minute;
+        _sabahMasaaNotification(true);
       });
     } else if (_pickedTime != null && index == 2) {
       setState(() {
@@ -163,11 +164,15 @@ class _UserSettingsState extends State<UserSettings> {
                   children: <Widget>[
                     Switch(
                       value: sabahMasaaSwitch,
-                      onChanged: (value) {
-                        setState(() async {
+                      onChanged: (value) async {
+                        setState(() {
                           sabahMasaaSwitch = value;
-                          // _sabahMasaaNotification(true);
                         });
+                        if (value) {
+                          _sabahMasaaNotification(true);
+                        } else {
+                          _sabahMasaaNotification(false);
+                        }
                       },
                       activeTrackColor: Colors.grey,
                       activeColor: Palette.primaryColor,
@@ -254,6 +259,8 @@ class _UserSettingsState extends State<UserSettings> {
                         });
                         if (value) {
                           _sleepNotification(true);
+                        } else {
+                          _sleepNotification(false);
                         }
                       },
                       activeTrackColor: Colors.grey,
@@ -519,14 +526,16 @@ class _UserSettingsState extends State<UserSettings> {
     var generalNotificationDetails =
         NotificationDetails(androidDetails, iSODetails);
 
-    // if (switched) {
-    await flutterLocalNotifications.showDailyAtTime(
-        0,
-        "أذكار وأدعية",
-        "تنبيه بأذكار الصباح والمساء",
-        Time(_sabahHour, _sabahMinute, 0),
-        generalNotificationDetails);
-    // }
+    if (switched) {
+      await flutterLocalNotifications.showDailyAtTime(
+          0, //id
+          "أذكار وأدعية",
+          "تنبيه بأذكار الصباح والمساء",
+          Time(_sabahHour, _sabahMinute, 0),
+          generalNotificationDetails);
+    } else {
+      flutterLocalNotifications.cancel(0);
+    }
   }
 
   void _sleepNotification(bool switched) async {
@@ -537,14 +546,16 @@ class _UserSettingsState extends State<UserSettings> {
     var generalNotificationDetails =
         NotificationDetails(androidDetails, iSODetails);
 
-    // if (switched) {
-    await flutterLocalNotifications.showDailyAtTime(
-        2,
-        "أذكار وأدعية",
-        "تنبيه بأذكار النوم",
-        Time(_sleepHour, _sleepMinute, 0),
-        generalNotificationDetails);
-    // }
+    if (switched) {
+      await flutterLocalNotifications.showDailyAtTime(
+          2, //id
+          "أذكار وأدعية",
+          "تنبيه بأذكار النوم",
+          Time(_sleepHour, _sleepMinute, 0),
+          generalNotificationDetails);
+    } else {
+      flutterLocalNotifications.cancel(2);
+    }
   }
 
   onNotificationInLowerVersions(ReceivedNotification receivedNotification) {

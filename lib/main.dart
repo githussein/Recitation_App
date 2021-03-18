@@ -26,8 +26,6 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  // final Future<FirebaseApp> _fbApp = Firebase.initializeApp();
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -87,32 +85,6 @@ class _MyHomePageState extends State<MyHomePage> {
   onNotificationClick(String payload) {
     print('Payload $payload');
   }
-
-  // Future notificationSelected(String payload) async {
-  //   //CURRENTLY THE NOTIFICATION JUST TAKE THE USER TO THE APP
-  //   // showDialog(
-  //   //   context: context,
-  //   //   builder: (context) => AlertDialog(
-  //   //     content: Text("Notification : $payload"),
-  //   //   ),
-  //   // );
-  // }
-
-  // Future _showNotification() async {
-  //   var androidDetails = new AndroidNotificationDetails(
-  //       "Channel ID", "Desi programmer", "This is my channel",
-  //       importance: Importance.Max);
-  //   var iSODetails = new IOSNotificationDetails();
-  //   var generalNotificationDetails =
-  //       new NotificationDetails(androidDetails, iSODetails);
-  //
-  //   // await flutterNotification.show(
-  //   //     0, "Task", "You created a Task", generalNotificationDetails,
-  //   //     payload: "Task");
-  //   var scheduledTime = DateTime.now().add(Duration(hours: 1));
-  //   flutterNotification.schedule(1, "تنبيه بالذكر", "سبحان الله وبحمده",
-  //       scheduledTime, generalNotificationDetails);
-  // }
 
   @override
   Widget build(BuildContext context) {

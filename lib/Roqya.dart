@@ -52,6 +52,11 @@ class _RoqyaState extends State<Roqya> {
 
                 List myList = jsonResult;
 
+                //Show a loading icon while reading the json file
+                if (!snapshot.hasData) {
+                  return Center(child: CircularProgressIndicator());
+                }
+
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -99,11 +104,11 @@ class _RoqyaState extends State<Roqya> {
                                         Text(
                                           index['zekr'],
                                           style: TextStyle(
-                                              //@TODO is this the final font?
                                               fontSize: 16.0,
                                               fontFamily: 'Gabriola',
                                               fontWeight: FontWeight.bold),
                                           textDirection: TextDirection.rtl,
+                                          textAlign: TextAlign.center,
                                         ),
                                         SizedBox(height: 10),
                                         Text(
